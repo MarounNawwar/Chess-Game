@@ -49,13 +49,9 @@ public class Board {
 		        	CurrentPiece.setCurrSquare(newSquare);
 		        
 		        	if (CurrentPiece.getPieceColor().equals(PieceColor.BLACK)) {
-		        		
 		        		blackPieces.add(CurrentPiece);
-		        	
 		        	}else {
-		            
 		        		whitePieces.add(CurrentPiece);
-		        	
 		        	}
 		        }
 		        
@@ -82,6 +78,4 @@ public class Board {
 		    return whitePieces;
 	}
 
-	
-	
 }
