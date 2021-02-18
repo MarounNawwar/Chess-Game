@@ -1,0 +1,123 @@
+package application;
+	
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+
+
+public class Main extends Application {
+	@Override
+	public void start(Stage primaryStage) {
+		try {
+		
+			GridPane root = (GridPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
+		
+			
+			//DOWN 
+			Text D1=new Text("A");
+			D1.setStyle("-fx-font-weight: bold;");
+			root.add(D1,1,9);
+			GridPane.setHalignment(D1, HPos.CENTER);
+			
+			Text D2=new Text("B");
+			D2.setStyle("-fx-font-weight: bold;");
+			root.add(D2,2,9);
+			GridPane.setHalignment(D2, HPos.CENTER);
+			
+			Text D3=new Text("C");
+			D3.setStyle("-fx-font-weight: bold;");
+			root.add(D3,3,9);
+			GridPane.setHalignment(D3, HPos.CENTER);
+			
+			Text D4=new Text("D");
+			D4.setStyle("-fx-font-weight: bold;");
+			root.add(D4,4,9);
+			GridPane.setHalignment(D4, HPos.CENTER);
+			
+			Text D5=new Text("E");
+			D5.setStyle("-fx-font-weight: bold;");
+			root.add(D5,5,9);
+			GridPane.setHalignment(D5, HPos.CENTER);
+			
+			Text D6=new Text("F");
+			D6.setStyle("-fx-font-weight: bold;");
+			root.add(D6,6,9);
+			GridPane.setHalignment(D6, HPos.CENTER);
+			
+			Text D7=new Text("G");
+			D7.setStyle("-fx-font-weight: bold;");
+			root.add(D7,7,9);
+			GridPane.setHalignment(D7, HPos.CENTER);
+			
+			Text D8=new Text("H");
+			D8.setStyle("-fx-font-weight: bold;");
+			root.add(D8,8,9);
+			GridPane.setHalignment(D8, HPos.CENTER);
+			
+			//LEFT
+			Text L1=new Text("8");
+			L1.setStyle("-fx-font-weight: bold;");
+			root.add(L1,0,1);
+			GridPane.setHalignment(L1, HPos.CENTER);
+			
+			Text L2=new Text("7");
+			L2.setStyle("-fx-font-weight: bold;");
+			root.add(L2,0,2);
+			GridPane.setHalignment(L2, HPos.CENTER);
+			
+			Text L3=new Text("6");
+			L3.setStyle("-fx-font-weight: bold;");
+			root.add(L3,0,3);
+			GridPane.setHalignment(L3, HPos.CENTER);
+			
+			Text L4=new Text("5");
+			L4.setStyle("-fx-font-weight: bold;");
+			root.add(L4,0,4);
+			GridPane.setHalignment(L4, HPos.CENTER);
+			
+			Text L5=new Text("4");
+			L5.setStyle("-fx-font-weight: bold;");
+			root.add(L5,0,5);
+			GridPane.setHalignment(L5, HPos.CENTER);
+			
+			Text L6=new Text("3");
+			L6.setStyle("-fx-font-weight: bold;");
+			root.add(L6,0,6);
+			GridPane.setHalignment(L6, HPos.CENTER);
+			
+			Text L7=new Text("2");
+			L7.setStyle("-fx-font-weight: bold;");
+			root.add(L7,0,7);
+			GridPane.setHalignment(L7, HPos.CENTER);
+			
+			Text L8=new Text("1");
+			L8.setStyle("-fx-font-weight: bold;");
+			root.add(L8,0,8);
+			GridPane.setHalignment(L8, HPos.CENTER);
+			
+			
+			HBox hbox=new HBox(root);
+			hbox.setAlignment(Pos.CENTER_RIGHT);
+			
+			
+			
+			Scene scene = new Scene(hbox,1000,600);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setTitle("Chess Game"); //title of the window
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+}
