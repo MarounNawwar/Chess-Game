@@ -1,0 +1,29 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+
+#pane01,#pane03,#pane05,#pane07,
+#pane10,#pane12,#pane14,#pane16,#pane18,
+#pane21,#pane23,#pane25,#pane27,
+#pane30,#pane32,#pane34,#pane36,#pane38,
+#pane41,#pane43,#pane45,#pane47,
+#pane50,#pane52,#pane54,#pane56,#pane58,
+#pane61,#pane63,#pane65,#pane67,
+#pane70,#pane72,#pane74,#pane76,#pane78{
+	-fx-background-color:#000000;
+}
+
+
+
+#numb00,#numb01,#numb02,#numb03,#numb04,#numb05,#numb06,#numb07,#numb08,#numb09{
+-fx-background-color:	#C0C0C0;
+}
+#numb90,#numb91,#numb92,#numb93,#numb94,#numb95,#numb96,#numb97,#numb98,#numb99{
+-fx-background-color:	#C0C0C0;
+}
+#numb1,#numb2,#numb3,#numb4,#numb5,#numb6,#numb7,#numb8{
+-fx-background-color:	#C0C0C0;
+}
+
+
+
+
