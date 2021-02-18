@@ -74,11 +74,11 @@ public class Board {
 		    return locationSquareMap;
 		  }
 
-	 public List<Piece> getLightPieces() {
+	 public List<Piece> getWhitePieces() {
 		    return whitePieces;
 		  }
 
-	public List<Piece> getDarkPieces() {
+	public List<Piece> getBlackPieces() {
 		    return whitePieces;
 	}
 
