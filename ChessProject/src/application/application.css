@@ -1,0 +1,36 @@
+
+.chess-space {
+	/* stage size (400)/8 spaces */
+	-fx-min-height:  50px;
+	-fx-min-width:   50px;
+	-fx-pref-height: 50px;
+	-fx-pref-width:  50px;
+	-fx-max-height:  50px;
+	-fx-max-width:   50px;
+	
+	/* prevent rounded buttons */
+	-fx-background-radius: 0em;
+}
+
+.chess-square-white {
+	-fx-background-color: #e8ebef;
+}
+
+.chess-square-black {
+	-fx-background-color: #7d8796;
+}
+
+.chess-square-active {
+	-fx-background-color: red;
+	-fx-border-color: black;
+}
+
+.chess-square-valid{
+	-fx-background-color: green;
+	-fx-border-color: black;
+}
+
+.chess-king-checked{
+	-fx-background-color: blue;
+	-fx-border-color: black;
+}
