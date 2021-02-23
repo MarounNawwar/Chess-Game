@@ -229,7 +229,11 @@ public class Board extends GridPane{
 			 checked = true;
 			 NotifyCheck(kingColor);
 		 }else {
-			 checked = false;
+			 if(checked) {
+				 checked = false;
+				 whiteKing.getCurrSquare().getStyleClass().remove("chess-king-checked");
+				 blackKing.getCurrSquare().getStyleClass().remove("chess-king-checked");
+			 }
 			 
 		 }
 		 
