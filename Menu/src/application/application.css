@@ -1,0 +1,113 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+/*-fx-background-color:#b0c4de; 
+ * -fx-background-image:url(https://i.pinimg.com/originals/7a/e3/26/7ae326ff376ddaceedbff65c611c8eb8.jpg);*/
+#HomePage{
+	-fx-background-image:url("https://i.pinimg.com/originals/a3/8b/f6/a38bf642fcc5e3c069c585399eb8b64d.jpg");
+
+	 -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+	-fx-font-family:'monospace';
+    -fx-border-insets: 5px;
+    -fx-background-insets: 20px;
+
+}
+#text{
+	-fx-font-family:'monospace';
+	-fx-padding:10; 
+	-fx-font-weight:bold;
+	-fx-font-size:15;
+	
+	
+	}
+#labels{
+	-fx-font-family:'monospace';
+	-fx-padding:10; 
+	-fx-font-weight:bolder;
+	-fx-font-size:15;
+	-fx-underline:true;
+	
+	}
+	
+
+#title{
+	-fx-font-family:'monospace';
+	-fx-padding:20 0 0 120; 
+	-fx-font-weight:bolder;
+	-fx-font-size:40;
+	}
+	
+	
+#btn1{
+    -fx-background-color:#FFFFFF ;
+    -fx-border-color:#000000;
+    -fx-border-width:5;
+   
+}
+	
+#btn2{
+    -fx-background-color:#FFFFFF ;
+    -fx-border-color:#000000;
+    -fx-border-width:5;
+
+}
+
+
+
+#timer{
+	-fx-padding:20;
+}
+
+.chess-space {
+	/* stage size (400)/8 spaces */
+	-fx-min-height:  50px;
+	-fx-min-width:   50px;
+	-fx-pref-height: 50px;
+	-fx-pref-width:  50px;
+	-fx-max-height:  50px;
+	-fx-max-width:   50px;
+	
+	/* prevent rounded buttons */
+	-fx-background-radius: 0em;
+}
+
+
+
+.chess-square-white {
+	-fx-background-color: #e8ebef;
+}
+
+.chess-square-black {
+	-fx-background-color: #7d8796;
+}
+
+.chess-square-active {
+	-fx-background-color: red;
+	-fx-border-color: black;
+}
+
+.chess-square-valid{
+	-fx-background-color: green;
+	-fx-border-color: black;
+}
+
+.chess-king-checked{
+	-fx-background-color: blue;
+	-fx-border-color: black;
+}
+#progress{
+	-fx-padding:20;
+}
+
+#start{
+	-fx-padding:1;
+	 -fx-background-color:#FFFFFF ;
+    -fx-border-color:#000000;
+    -fx-border-width:5;
+   
+	
+}
+
+
+
+
