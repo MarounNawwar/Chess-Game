@@ -12,6 +12,21 @@
     -fx-background-insets: 20px;
 
 }
+#BoardScene{
+	-fx-background-image:url("https://specials-images.forbesimg.com/imageserve/5f7f90834d19c44049e79295/960x0.jpg?fit=scale");
+	-fx-font-family:'monospace';
+ -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size:cover;
+    
+
+
+}
+
+#board{
+	-fx-padding: 10 0 0 240 ;
+}
+
 #text{
 	-fx-font-family:'monospace';
 	-fx-padding:10; 
@@ -32,7 +47,7 @@
 
 #title{
 	-fx-font-family:'monospace';
-	-fx-padding:20 0 0 120; 
+	-fx-padding:40 0 0 120; 
 	-fx-font-weight:bolder;
 	-fx-font-size:40;
 	}
@@ -40,22 +55,73 @@
 	
 #btn1{
     -fx-background-color:#FFFFFF ;
-    -fx-border-color:#000000;
-    -fx-border-width:5;
+    -fx-border-radius:10;
+    -fx-background-radius:10;
+    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
+    
    
 }
+
+
+#btn1:hover {
+  -fx-background-color: #C9C9C9;
+}
+
+#btn1:pressed {
+  -fx-background-color: #235891;
+}
+
 	
 #btn2{
     -fx-background-color:#FFFFFF ;
-    -fx-border-color:#000000;
-    -fx-border-width:5;
+  	-fx-border-radius:10;
+  	-fx-background-radius:10;
+    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
 
 }
+
+#btn2:hover {
+  -fx-background-color: #C9C9C9;
+}
+
+#btn2:pressed {
+  -fx-background-color: #235891;
+}
+
+
+
+
+#quit{
+	-fx-background-color:#FFFFFF ;
+  	-fx-border-radius:10;
+  	-fx-background-radius:10;
+    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
+}
+
+#quit:hover {
+  -fx-background-color: #8B8B8B;
+}
+
+#quit:pressed {
+  -fx-background-color: #F75D51;
+}
+
+
+	
+#back{
+    -fx-background-color:#FFFFFF ;
+    -fx-border-radius:10;
+    -fx-background-radius:10;
+    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
+    -fx-padding:1;
+  
+}
+
 
 
 
 #timer{
-	-fx-padding:20;
+	-fx-padding:10;
 }
 
 .chess-space {
@@ -64,11 +130,7 @@
 	-fx-min-width:   50px;
 	-fx-pref-height: 50px;
 	-fx-pref-width:  50px;
-	-fx-max-height:  50px;
-	-fx-max-width:   50px;
-	
-	/* prevent rounded buttons */
-	-fx-background-radius: 0em;
+
 }
 
 

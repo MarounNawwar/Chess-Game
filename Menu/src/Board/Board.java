@@ -1,6 +1,7 @@
 package Board;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +23,9 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -122,36 +125,31 @@ public class Board extends GridPane{
 	 
 	 //Event handler when a square is clicked 
 	 private void onSquareClick(int row, int column) {
-		Square clickedSquare = boardSquares[row][column];
-		
-		
-		
-		//Case where the Player clicks on one of his Pieces
-		if(clickedSquare.isOccupied() && clickedSquare.getCurrPiece() != null && clickedSquare.getPieceColor().equals(this.playerTurn)) {
-			
-				makeNewActiveSquare(clickedSquare);
-			
-		}else if(ActiveSquare != null && ActiveSquare.isOccupied()) {  
-			
-			if(!this.checked && ActiveSquare.getCurrPiece().getValidMoves(this).contains(clickedSquare.getLocation())) {
+		 Square clickedSquare = boardSquares[row][column];
+			//Case where the Player clicks on one of his Pieces
+			if(clickedSquare.isOccupied() && clickedSquare.getCurrPiece() != null && clickedSquare.getPieceColor().equals(this.playerTurn)) {
 				
-				if(!ActiveSquare.getCurrPiece().moveResultInCheck(this,ActiveSquare)) {
-					makeMove(clickedSquare);
-				}
+					makeNewActiveSquare(clickedSquare);
 				
-		}else if(this.checked && ActiveSquare.getCurrPiece().getValidMoves(this,pathOfCheck).contains(clickedSquare.getLocation())){
-		
-				if(!ActiveSquare.getCurrPiece().moveResultInCheck(this, ActiveSquare)) {
-					makeMove(clickedSquare);
-				}
+			}else if(ActiveSquare != null && ActiveSquare.isOccupied()) {  
+				
+				if(!this.checked && ActiveSquare.getCurrPiece().getValidMoves(this).contains(clickedSquare.getLocation())) {
+					
+					if(!ActiveSquare.getCurrPiece().moveResultInCheck(this,ActiveSquare)) {
+						makeMove(clickedSquare);
+					}
+					
+			}else if(this.checked && ActiveSquare.getCurrPiece().getValidMoves(this,pathOfCheck).contains(clickedSquare.getLocation())){
 			
-		}else {
-				ActiveSquare.getStyleClass().remove("chess-square-active");
-				RemoveDisplayedValidMoves(ActiveSquare);
-				setActiveSquare(null);
+					makeMove(clickedSquare);
+					
+			}else {
+					ActiveSquare.getStyleClass().remove("chess-square-active");
+					RemoveDisplayedValidMoves(ActiveSquare);
+					setActiveSquare(null);
+				}
 			}
-		}
-		
+
 	}
 	 
 	 
@@ -162,11 +160,11 @@ public class Board extends GridPane{
 	}
 	 
 	 
-	 
-	 
-	 
-
-
+	 public static Board reset() {
+			Instance=null;
+			Instance=new Board();
+		return Instance;
+	 }
 	 
 	 //Display all the currently valid moves for a given Piece
 	 private void DisplayValidMoves(Square activeSquare) {
@@ -237,10 +235,14 @@ public class Board extends GridPane{
 			
 			ActiveSquare = clickedSquare;
 			clickedSquare.getStyleClass().add("chess-square-active");
+			
 			if(!clickedSquare.getCurrPiece().moveResultInCheck(this, clickedSquare)) {
 				DisplayValidMoves(ActiveSquare);
 			}
-		 
+			else if(this.checked && clickedSquare.getCurrPiece().moveResultInCheck(this, clickedSquare)) {
+				DisplayValidMoves(ActiveSquare);
+			}
+
 	 }
 	 
 	 
@@ -251,16 +253,24 @@ public class Board extends GridPane{
 		 ActiveSquare.getStyleClass().remove("chess-square-active");
 		 RemoveDisplayedValidMoves(ActiveSquare);
 		 ActiveSquare.getCurrPiece().makeMove(clickedSquare);
-		 goNextTurn();
-		 Main.StartTurn();
+		 
 		 if((kingColor = kingIsChecked()) != null) {
 			 checked = true;
 			 NotifyCheck(kingColor);
+			 
 		 }else {
-			 checked = false;
+			 	if(checked) {
+				 
+				 checked = false;
+				 
+				 whiteKing.getCurrSquare().getStyleClass().remove("chess-king-checked");
+				 blackKing.getCurrSquare().getStyleClass().remove("chess-king-checked");
+			 }
+
 			 
 		 }
-		 
+		 goNextTurn();
+		 Main.StartTurn();	 
 	 }
 
 	 
@@ -351,12 +361,11 @@ public class Board extends GridPane{
 		 return pathOfCheck;
 	 }
 	 
-	 
 	 public void resetPathOfCheck() {
 		 pathOfCheck.clear();
 	 }
 	 
-	 private boolean isCheckMate(King king) {
+	 public boolean isCheckMate(King king) {
 		 
 		 //Check if the king is checked or not
 		 if( king.isChecked(this) == null) return false;
@@ -393,7 +402,18 @@ public class Board extends GridPane{
 			}
 					
 		}
-		 return true;
+		
+		 Main.StopTime();
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Congratulation");
+        alert.setHeaderText("Results:");
+        alert.setContentText(getPlayerTurn()+"  Won!!!!");
+        
+        alert.showAndWait();
+        
+        //To exit the game
+        System.exit(0);
+        return true;
 	 }
 	 
 	 

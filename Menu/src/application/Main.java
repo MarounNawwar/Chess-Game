@@ -1,10 +1,10 @@
 package application;
 	
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -12,42 +12,23 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.ScrollPane;
-
-import java.beans.Visibility;
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.script.Bindings;
-
-import org.omg.CORBA.PUBLIC_MEMBER;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import Board.Board;
-import Pieces.Movable;
-import Pieces.Piece;
+import Pieces.King;
 import Pieces.PieceColor;
-import Pieces.PieceFactory;
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-
-
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 
@@ -56,17 +37,31 @@ public class Main extends Application{
 	
 
 	//Delay initialized to 0 for the Timer
-	private Stage stage;
+	public static Stage stage;
 	private Scene boardScene;
 	private Board board;
 
-	public  Slider timeSlider;
-	private Scene scene1;
+	public static Scene scene1;
+	
+	
+	public static Scene getScene1() {
+		return scene1;
+	}
+
+
 	private VBox vbox1;
+	private VBox vbox2;
+	private HBox hbox1;
+	private VBox vBox3;
+	private VBox vBox4;
+	
+	private ScrollPane scrollPane;
+	
+	
 	private Button gameButton;
 	private Button quitButton;
 	private Scene scene2;
-	private VBox vbox2;
+	
 	private Button gameRuleButton;
 	public static Button startgameButton;
 	public static ProgressBar progress;
@@ -92,21 +87,24 @@ public class Main extends Application{
 			}
 		}
 	
-		private Scene createScene1() throws IOException {
+		public Scene createScene1() throws IOException {
 			
 			 vbox1=(VBox)FXMLLoader.load(getClass().getResource("HomePage.fxml"));
 			 vbox1.setSpacing(15);
 			 
 			 gameButton=new Button("New Game");
+			 gameButton.setPrefWidth(150);
 			 gameButton.setOnAction(e -> switchScenes(boardScene));
 			 gameButton.setId("btn1");
 			 gameRuleButton=new Button("Game Rules");
+			 gameRuleButton.setPrefWidth(150);
 			 gameRuleButton.setId("btn2");
 			 gameRuleButton.setOnAction(e ->switchScenes(scene2));
 			 
 			 quitButton=new Button("Quit");
+			 quitButton.setPrefWidth(150);
 			 quitButton.setOnAction(e -> stage.close());
-			 quitButton.setId("btn2");
+			 quitButton.setId("quit");
 			 
 			 vbox1.getChildren().addAll(gameButton,gameRuleButton,quitButton);
 			 
@@ -116,93 +114,105 @@ public class Main extends Application{
 			return scene1;
 		}
 		
-		private Scene createBoardScene() {
+		public Scene createBoardScene() {
 		
-			HBox hbox6=new HBox();
-			VBox vBox5=new VBox();
-			
-			 	Menu m = new Menu("Menu"); 
+			BorderPane b=new BorderPane();
+	
+			Menu m = new Menu("Menu"); 
+			 
+			 	ImageView view=new ImageView("assets/homeIcon.png");
+			 	view.setFitHeight(20);
+			 	view.setFitWidth(20);
+			 	m.setGraphic(view);
+			 	
 		        MenuItem restart = new MenuItem("Home Page"); 
+		        
 		        //when m1 is clicked my whole app is reloaded
-		        restart.setOnAction(e->{Main app=new Main();
-		        app.start(stage);});
-		  
+		        restart.setOnAction(e->{
+		        	Board.reset();
+			       restartGame();
+			        
+		        });
+		        
 		        m.getItems().add(restart); 
-		  
 		        MenuBar mb = new MenuBar(); 
 		        mb.getMenus().add(m); 
 		        
-			board = Board.getInstance();
+		        //To make the menuBar fit the Parent's Width
+		    	mb.prefWidthProperty().bind(stage.widthProperty());
+		        b.setTop(mb);
+		    	board = Board.getInstance();
+		    
 			
-			//TODO: implement the function changeTurn(); to show in the console who's turn is it 
+
 			progress = new ProgressBar();
-			progress.setId("progress");
-		     progress.setMinWidth(200);
-		     progress.setMaxWidth(Double.MAX_VALUE);
-		     IntegerProperty seconds = new SimpleIntegerProperty();
-		     progress.progressProperty().bind(seconds.divide(60.0));
-		      timeline = new Timeline(
+				progress.setId("progress");
+				progress.setMinWidth(200);
+				progress.setMaxWidth(Double.MAX_VALUE);
+				IntegerProperty seconds = new SimpleIntegerProperty();
+				progress.progressProperty().bind(seconds.divide(60.0));
+			timeline = new Timeline(
 		         new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
 		         new KeyFrame(Duration.minutes(0.3), e-> {
 		         }, new KeyValue(seconds, 60))   
 		     );
 		    timeline.setCycleCount(1);
-		    timeline.setOnFinished(e-> {
-		    	
+		    timeline.setOnFinished(e-> {		    	
 		    	if(board.getActiveSquare() !=null) {
 		    		board.RemoveDisplayedValidMoves(board.getActiveSquare());
 		    		board.getActiveSquare().getStyleClass().remove("chess-square-active");
-		    	}
+		    	}	
 		    	
-		    	board.goNextTurn();
-		    	
-		    	PieceColor colorString =board.getPlayerTurn();
-				   
-	        	 Label label=new Label();
-	        	
-	        	 label.setText(colorString+" 's Turn");
-	    
-	        	 vBox5.getChildren().add(label);
-				    System.out.println(colorString+ "  Turn");
-		    	StartTurn();
+		    	board.goNextTurn();		
+		    StartTurn();
 		    });
 		    
-		    
-		    
-		   
 		    startgameButton=new Button("Start the match");
 		    startgameButton.setId("start");
 		    startgameButton.setVisible(true);
-
 		    startgameButton.setOnAction(e-> { 
-		    
 		    	StartTurn();
 				//After Clicking the Button Disappear
 				startgameButton.setVisible(false);
 		    });
-		     
+		    vBox4=new VBox();
+		    hbox1=new HBox(board);
+		    hbox1.centerShapeProperty();
+		    hbox1.setAlignment(Pos.CENTER);
+		    board.setId("board");
+		    vBox4.getChildren().add(hbox1);
+		    vBox4.setAlignment(Pos.CENTER);
+		
+		    b.setCenter(vBox4);
+		    b.setBottom(progress);
 		    
-		    VBox vBox7=new VBox();
-		    vBox5.getChildren().addAll(mb,board);
-		  
-		    vBox7.getChildren().addAll(progress,startgameButton);
-		    vBox7.setAlignment(Pos.CENTER);
-			hbox6.getChildren().addAll(vBox5,vBox7);
-			boardScene = new Scene(hbox6,700,500);
+		
+		    b.setId("BoardScene");
+			boardScene = new Scene(b,700,500);
 			boardScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			return boardScene;
+			
 		}
 		
-		
-		
+		public static void restartGame() {
+			 Main app=new Main();
+		        app.start(stage);
+		        app.createBoardScene();
+		}
+	
 		public static void StartTurn() {
 			startgameButton.setVisible(false);
 			timeline.playFromStart();
+		}		
+		
+		
+		
+		public static void StopTime() {
+			timeline.stop();
 		}
-		
-		
+
 		private Scene createScene2() throws IOException {
-			ScrollPane scrollPane=new ScrollPane();
+			scrollPane=new ScrollPane();
 			scrollPane.setPrefSize(100,300);
 			Label ruleLabel=new Label("How to play?");
 			ruleLabel.setId("labels");
@@ -228,17 +238,19 @@ public class Main extends Application{
 			rulesText.setId("text");
 			scrollPane.setContent(rulesText);
 			Button closeButton = new Button("Back");
+			closeButton.setPrefWidth(100);
+			closeButton.setId("back");
 			closeButton.setOnAction(e ->switchScenes(scene1));
 			vbox2=new VBox();
 			vbox2.setSpacing(5);
-			vbox2.getChildren().addAll(ruleLabel,rulesText,scrollPane,closeButton);
+			vbox2.getChildren().addAll(ruleLabel,scrollPane,closeButton);
 			scene2= new Scene(vbox2,700,500);
 			scene2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			return scene2;
 		}
 		
-		public void switchScenes(Scene scene) {
+		public static  void switchScenes(Scene scene) {
 			stage.setScene(scene);
 			
 		}
