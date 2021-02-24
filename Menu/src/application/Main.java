@@ -28,6 +28,8 @@ import java.util.TimerTask;
 
 import javax.script.Bindings;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -133,7 +135,6 @@ public class Main extends Application{
 			board = Board.getInstance();
 			
 			//TODO: implement the function changeTurn(); to show in the console who's turn is it 
-			System.out.println("The player color is :" +board.getPlayerTurn());
 			progress = new ProgressBar();
 			progress.setId("progress");
 		     progress.setMinWidth(200);
@@ -143,35 +144,43 @@ public class Main extends Application{
 		      timeline = new Timeline(
 		         new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
 		         new KeyFrame(Duration.minutes(0.3), e-> {
-		        	 PieceColor colorString =board.getPlayerTurn();
-		   
-		        	 Label label=new Label();
-		        	
-		        	 label.setText(colorString+" 's Turn");
-		        	 
-		     
-		        	
-		        	     
-		        	 vBox5.getChildren().add(label);
-					    System.out.println(colorString+ "  Turn");
 		         }, new KeyValue(seconds, 60))   
 		     );
-		    timeline.setCycleCount(Animation.INDEFINITE);
-		  
-
+		    timeline.setCycleCount(1);
+		    timeline.setOnFinished(e-> {
+		    	
+		    	if(board.getActiveSquare() !=null) {
+		    		board.RemoveDisplayedValidMoves(board.getActiveSquare());
+		    		board.getActiveSquare().getStyleClass().remove("chess-square-active");
+		    	}
+		    	
+		    	board.goNextTurn();
+		    	
+		    	PieceColor colorString =board.getPlayerTurn();
+				   
+	        	 Label label=new Label();
+	        	
+	        	 label.setText(colorString+" 's Turn");
+	    
+	        	 vBox5.getChildren().add(label);
+				    System.out.println(colorString+ "  Turn");
+		    	StartTurn();
+		    });
+		    
+		    
+		    
+		   
 		    startgameButton=new Button("Start the match");
 		    startgameButton.setId("start");
 		    startgameButton.setVisible(true);
 
 		    startgameButton.setOnAction(e-> { 
 		    
-		    	timeline.playFromStart();
-		    	
-				   
-				    //After Clicking the Button Disappear
-				    startgameButton.setVisible(false);
+		    	StartTurn();
+				//After Clicking the Button Disappear
+				startgameButton.setVisible(false);
 		    });
-
+		     
 		    
 		    VBox vBox7=new VBox();
 		    vBox5.getChildren().addAll(mb,board);
@@ -183,7 +192,15 @@ public class Main extends Application{
 			boardScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			return boardScene;
 		}
-
+		
+		
+		
+		public static void StartTurn() {
+			startgameButton.setVisible(false);
+			timeline.playFromStart();
+		}
+		
+		
 		private Scene createScene2() throws IOException {
 			ScrollPane scrollPane=new ScrollPane();
 			scrollPane.setPrefSize(100,300);
@@ -230,7 +247,5 @@ public class Main extends Application{
 						launch(args);
 					}
 		
-}//whole application 
-
-
+}//whole application
 

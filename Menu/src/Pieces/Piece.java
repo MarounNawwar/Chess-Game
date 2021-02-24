@@ -42,7 +42,30 @@ public abstract class Piece implements Movable{
 		return validMoves;
 	}
 	
-	public int getRow() {
+	public boolean moveResultInCheck(Board board, Square square) {
+		King playerKing;
+		
+		//Retrieve The king of this Piece
+		if(this.getPieceColor().equals(PieceColor.BLACK)) 
+			playerKing = board.getBlackKing();
+		playerKing = board.getWhiteKing();
+		
+		Piece tmp = square.getCurrPiece();
+	
+		square.releasePiece();
+		
+	if(playerKing.isChecked(board)!=null) {
+		square.SetCurrPiece(tmp);
+		square.setOcuppied(true);
+		return true;
+		}
+		square.SetCurrPiece(tmp);
+		square.setOcuppied(true);
+	return false;
+		
+	}
+	
+ 	public int getRow() {
 		return this.getCurrSquare().getRow();
 	}
 	

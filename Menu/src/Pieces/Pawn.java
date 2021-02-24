@@ -60,6 +60,7 @@ public class Pawn extends Piece{
 	    //Case where it is the first move of the user
 	    if(this.isFirstMove()) 
 	    	if(Board.squareIsOccupied(CurrRow+ (2*sign),CurrColumn) == null) {
+	    	
 	    		moveCandidates.add(LocationFactory.build(current, 0, 2*sign));
 	    	}
 	    	

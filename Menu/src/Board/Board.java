@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 import Pieces.King;
 import Pieces.Piece;
 import Pieces.PieceColor;
 import Pieces.PieceFactory;
 import Position.Location;
 import Position.LocationFactory;
+import application.Main;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -121,6 +124,8 @@ public class Board extends GridPane{
 	 private void onSquareClick(int row, int column) {
 		Square clickedSquare = boardSquares[row][column];
 		
+		
+		
 		//Case where the Player clicks on one of his Pieces
 		if(clickedSquare.isOccupied() && clickedSquare.getCurrPiece() != null && clickedSquare.getPieceColor().equals(this.playerTurn)) {
 			
@@ -130,11 +135,15 @@ public class Board extends GridPane{
 			
 			if(!this.checked && ActiveSquare.getCurrPiece().getValidMoves(this).contains(clickedSquare.getLocation())) {
 				
-				makeMove(clickedSquare);
+				if(!ActiveSquare.getCurrPiece().moveResultInCheck(this,ActiveSquare)) {
+					makeMove(clickedSquare);
+				}
 				
 		}else if(this.checked && ActiveSquare.getCurrPiece().getValidMoves(this,pathOfCheck).contains(clickedSquare.getLocation())){
-			
-				makeMove(clickedSquare);
+		
+				if(!ActiveSquare.getCurrPiece().moveResultInCheck(this, ActiveSquare)) {
+					makeMove(clickedSquare);
+				}
 			
 		}else {
 				ActiveSquare.getStyleClass().remove("chess-square-active");
@@ -149,16 +158,14 @@ public class Board extends GridPane{
 	 public void goNextTurn() {
 		ActiveSquare = null;
 		this.playerTurn = (this.playerTurn.equals(PieceColor.BLACK))? PieceColor.WHITE : PieceColor.BLACK;
-		//TODO:Implment timer
-	
-	    
-	  
-	    
+		
 	}
 	 
 	 
 	 
 	 
+	 
+
 
 	 
 	 //Display all the currently valid moves for a given Piece
@@ -187,7 +194,7 @@ public class Board extends GridPane{
 
 	 
 	 //Remove Display from all currently displayed moves
-	 private void RemoveDisplayedValidMoves(Square activeSquare) {
+	 public void RemoveDisplayedValidMoves(Square activeSquare) {
 		 Square CurrSquare;
 		 
 			//Case where the activeSquare has either a piece from the opponent or has no pieces on it
@@ -230,7 +237,9 @@ public class Board extends GridPane{
 			
 			ActiveSquare = clickedSquare;
 			clickedSquare.getStyleClass().add("chess-square-active");
-			DisplayValidMoves(ActiveSquare);
+			if(!clickedSquare.getCurrPiece().moveResultInCheck(this, clickedSquare)) {
+				DisplayValidMoves(ActiveSquare);
+			}
 		 
 	 }
 	 
@@ -243,7 +252,7 @@ public class Board extends GridPane{
 		 RemoveDisplayedValidMoves(ActiveSquare);
 		 ActiveSquare.getCurrPiece().makeMove(clickedSquare);
 		 goNextTurn();
-		 
+		 Main.StartTurn();
 		 if((kingColor = kingIsChecked()) != null) {
 			 checked = true;
 			 NotifyCheck(kingColor);
