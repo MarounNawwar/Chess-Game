@@ -8,7 +8,7 @@ import java.util.List;
 
 import Board.Board;
 import Position.Location;
-import Position.LocationFactory;
+import Position.LocationMaker;
 
 public class Pawn extends Piece{
 	
@@ -22,7 +22,7 @@ public class Pawn extends Piece{
 		
 		this.isFirstMove = true;
 		
-		String location = "assets/";
+		String location = "images/";
         String filename = this.getPieceColor() + "_" + this.getName() + ".png";
         this.image = new Image(location + filename);
         
@@ -61,20 +61,21 @@ public class Pawn extends Piece{
 	    if(this.isFirstMove()) 
 	    	if(Board.squareIsOccupied(CurrRow+ (2*sign),CurrColumn) == null) {
 	    	
-	    		moveCandidates.add(LocationFactory.build(current, 0, 2*sign));
+	    		moveCandidates.add(LocationMaker.build(current, 0, 2*sign));
 	    	}
-	    	
+	    //else of isFirstMove	
 	    if(Board.squareIsOccupied(CurrRow + sign,CurrColumn) == null) {
-    		moveCandidates.add(LocationFactory.build(current, 0, sign));
+    		moveCandidates.add(LocationMaker.build(current, 0, sign));
 	    }
+	    
 		
 	    //For diagonal move (case where there is a kill)
     	if(CurrColumn != 7 && (Color = Board.squareIsOccupied(CurrRow+sign,CurrColumn+1)) != null && Color != this.getPieceColor())
-    		moveCandidates.add(LocationFactory.build(current, 1, sign));
+    		moveCandidates.add(LocationMaker.build(current, 1, sign));
     	
     	//For Diagonal move (case where there is a kill)
     	if(CurrColumn != 0 &&(Color = Board.squareIsOccupied(CurrRow+sign,CurrColumn-1)) != null && Color != this.getPieceColor())
-    		moveCandidates.add(LocationFactory.build(current, -1, sign));
+    		moveCandidates.add(LocationMaker.build(current, -1, sign));
     	return moveCandidates;
 	  }
 	

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import Board.Board;
 import Position.Location;
-import Position.LocationFactory;
+import Position.LocationMaker;
 import javafx.scene.image.Image;
 import squares.Square;
 
@@ -16,7 +16,7 @@ public class Queen extends Piece{
 		super(pieceColor);
 		this.name = "queen";
 		
-		String location = "assets/";
+		String location = "images/";
         String filename = this.getPieceColor() + "_" + this.getName() + ".png";
         this.image = new Image(location + filename);
 	}
@@ -45,7 +45,7 @@ public class Queen extends Piece{
 	public void getMovesInDirection(List<Location> moveCandidates, Map<Location, Square> squareMap, Location currLocation, int RowOffSet, int ColOffSet) {
 			try {
 				
-				Location next = LocationFactory.build(currLocation, ColOffSet, RowOffSet);
+				Location next = LocationMaker.build(currLocation, ColOffSet, RowOffSet);
 				
 				while(squareMap.containsKey(next) && next != null) {
 					//Case the Square is Occupied
@@ -60,7 +60,7 @@ public class Queen extends Piece{
 						}
 					}	
 					moveCandidates.add(next);
-					next = LocationFactory.build(next, ColOffSet, RowOffSet);
+					next = LocationMaker.build(next, ColOffSet, RowOffSet);
 				}	
 			}catch(Exception e) {
 				e.printStackTrace();

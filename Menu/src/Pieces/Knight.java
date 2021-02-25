@@ -6,7 +6,7 @@ import java.util.Map;
 
 import Board.Board;
 import Position.Location;
-import Position.LocationFactory;
+import Position.LocationMaker;
 import javafx.scene.image.Image;
 import squares.Square;
 
@@ -17,7 +17,7 @@ public class Knight extends Piece{
 		super(pieceColor);
 		this.name="knight";
 		
-		String location = "assets/";
+		String location = "images/";
         String filename = this.getPieceColor() + "_" + this.getName() + ".png";
         this.image = new Image(location + filename);
 	}
@@ -44,7 +44,7 @@ public class Knight extends Piece{
 	private void getMoves(List<Location> moveCandidates, Map<Location, Square> squareMap, Location current, int columnOffSet, int rowOffSet) {
 		try {
 			
-			Location next= LocationFactory.build(current, columnOffSet, rowOffSet);
+			Location next= LocationMaker.build(current, columnOffSet, rowOffSet);
 			
 			//Check that the location is valid and available on the board
 			if(squareMap.containsKey(next)) {

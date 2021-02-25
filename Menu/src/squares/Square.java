@@ -12,10 +12,15 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
 public class Square extends Button{
-
+	//SquareColor:BLACK-WHITE
 	private final SquareColor squarecolor;
+	
+	//Location: row,column
 	private final Location location;
+	//to see if a square is occupied
 	private boolean isOccupied;
+	
+	//Piece that occupy the square
 	private Piece currPiece;
 	
 	
@@ -31,14 +36,15 @@ public class Square extends Button{
 		this.isOccupied = false;
 		this.currPiece = null;
 		
+		//size of each cell
 		this.getStyleClass().add("chess-space");
 		
 		if(this.squarecolor == SquareColor.BLACK) {
-		
+			//color of the cell
 			this.getStyleClass().add("chess-square-black");
 		
 		}else {
-			
+			//color of the cell
 			this.getStyleClass().add("chess-square-white");
 			
 		}
@@ -47,6 +53,7 @@ public class Square extends Button{
 	
 	//Will be used to make the square no longer Occupied when piece move from it
 	//The function returns the Piece that has moved
+	//Used after MakeMove()
 	public void releasePiece() {
 		this.isOccupied = false;
 		SetCurrPiece(null);
@@ -80,7 +87,7 @@ public class Square extends Button{
 	
 	public boolean isAnOpponentMove(Board board,PieceColor playerColor) {
 		
-		//Retrieve the Map containing all the current Positions
+		//Retrieve the Map containing all the current Positions for each square
 		Map<Location,Square> squareMap = board.getLocationSquareMap();
 				
 		//Retrieving the keys of the Map

@@ -9,6 +9,7 @@ import javafx.scene.image.*;
 import squares.Square;
 
 public abstract class Piece implements Movable{
+	
 	protected String name;
 	protected PieceColor pieceColor;
 	protected Square currentSquare;
@@ -19,7 +20,6 @@ public abstract class Piece implements Movable{
 		this.pieceColor = pieceColor;
 	}
 	
-	
 	@Override
 	public void makeMove(Square destinationSquare) {
 		if(this.getValidMoves(Board.getInstance()).contains(destinationSquare.getLocation())) {
@@ -28,6 +28,7 @@ public abstract class Piece implements Movable{
 			destinationSquare.SetCurrPiece(this);
 		}
 	}
+
 	
 	//Return the moves that are available in the targetSquares list and that are valid 
 	@Override
@@ -54,16 +55,22 @@ public abstract class Piece implements Movable{
 	
 		square.releasePiece();
 		
+		//if the piece that I want to remove will result as check to my king so [get back the piece after release]+Return true
 	if(playerKing.isChecked(board)!=null) {
 		square.SetCurrPiece(tmp);
 		square.setOcuppied(true);
 		return true;
 		}
+	
+		//if it doesn't affect my king, so [get back piece after release]+Return False
 		square.SetCurrPiece(tmp);
 		square.setOcuppied(true);
 	return false;
 		
 	}
+
+	
+	
 	
  	public int getRow() {
 		return this.getCurrSquare().getRow();

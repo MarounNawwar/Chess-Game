@@ -3,6 +3,7 @@ package Position;
 import java.util.Objects;
 
 public class Location {
+	
 	private final Integer row;
 	private final Integer column;
 	
@@ -13,11 +14,12 @@ public class Location {
 	}
 
 	//HashCode and equal will be used to compare 2 locations with each others
-		
+	//Each Object has a unique HashCode,used to facilitate the comparison
 	@Override
 	public int hashCode() {
 		return Objects.hash(row, column);
 	}
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -31,8 +33,8 @@ public class Location {
 		return Objects.equals(column, other.column) && row == other.row;
 	}
 
+	
 	//Getters
-
 	public Integer getRow() {
 		return row;
 	}

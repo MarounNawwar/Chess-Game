@@ -8,7 +8,7 @@ import java.util.Set;
 
 import Board.Board;
 import Position.Location;
-import Position.LocationFactory;
+import Position.LocationMaker;
 import javafx.scene.image.Image;
 import squares.Square;
 
@@ -18,7 +18,7 @@ public class King extends Piece {
 		super(pieceColor);
 		this.name= "king";
 		
-		String location = "assets/";
+		String location = "images/";
         String filename = this.getPieceColor() + "_" + this.getName() + ".png";
         this.image = new Image(location + filename);
 	}
@@ -94,14 +94,16 @@ public class King extends Piece {
 		
 		for(int i = -1;i <= 1; i++) {
 			for(int j= -1;j <= 1; j++) {
+				//Case where he's still on it's initial location
 				if(i==0 && j==0) {
 					//Case to be avoided by the loop
 					continue;
+					
 				}else if((Color = Board.squareIsOccupied(CurrRow+i, CurrColumn+j)) != null && Color == this.getPieceColor()) {
 					continue;
 				}else if(CurrRow + i <8 && CurrColumn + j < 8){
 					//Case where the square is either empty or occupied by a piece of the opponent
-					Location NewLocation = LocationFactory.build(current, j, i);
+					Location NewLocation = LocationMaker.build(current, j, i);
 					
 					if(board.getLocationSquareMap().containsKey(NewLocation) &&
 							!board.getLocationSquareMap().get(NewLocation).isAnOpponentMove(board,this.getPieceColor()))

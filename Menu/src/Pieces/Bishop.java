@@ -6,7 +6,7 @@ import java.util.Map;
 
 import Board.Board;
 import Position.Location;
-import Position.LocationFactory;
+import Position.LocationMaker;
 import javafx.scene.image.Image;
 import squares.Square;
 
@@ -17,7 +17,7 @@ public class Bishop extends Piece{
 		super(pieceColor);
 		this.name = "bishop";
 		
-		String location = "assets/";
+		String location = "images/";
         String filename = this.getPieceColor() + "_" + this.getName() + ".png";
         this.image = new Image(location + filename);
 	}
@@ -47,7 +47,7 @@ public class Bishop extends Piece{
 			
 			//To be sure to not let the Location get stuck in an infinite loop,
 			//we add a prev Location to compare the prev location fetched to the newer
-			Location next = LocationFactory.build(currLocation, ColOffSet, RowOffSet);
+			Location next = LocationMaker.build(currLocation, ColOffSet, RowOffSet);
 			
 			while(squareMap.containsKey(next) &&  next != null) {
 				
@@ -65,7 +65,7 @@ public class Bishop extends Piece{
 				}	
 				
 				moveCandidates.add(next);
-				next = LocationFactory.build(next, ColOffSet, RowOffSet);
+				next = LocationMaker.build(next, ColOffSet, RowOffSet);
 			}	
 		
 		}catch(Exception e) {

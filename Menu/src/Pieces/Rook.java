@@ -6,7 +6,7 @@ import java.util.Map;
 
 import Board.Board;
 import Position.Location;
-import Position.LocationFactory;
+import Position.LocationMaker;
 import javafx.scene.image.Image;
 import squares.Square;
 
@@ -17,7 +17,7 @@ public class Rook extends Piece {
 		super(pieceColor);
 		this.name = "rook";
 		
-		String location = "assets/";
+		String location = "images/";
         String filename = this.getPieceColor() + "_" + this.getName() + ".png";
         this.image = new Image(location + filename);
 	}
@@ -40,7 +40,7 @@ public class Rook extends Piece {
 	private void getColumnCandidates(List<Location> moveCandidates, Map<Location, Square> squareMap, Location current,int ColumnOffSet) {
 		PieceColor Color;
 		try {
-			Location next = LocationFactory.build(current, ColumnOffSet, 0);
+			Location next = LocationMaker.build(current, ColumnOffSet, 0);
 			while(squareMap.containsKey(next) && next != null) {
 				if((Color = Board.squareIsOccupied(next.getRow(), next.getColumn())) != null) {
 					if(Color == this.pieceColor) {
@@ -51,7 +51,7 @@ public class Rook extends Piece {
 					}
 				}
 				moveCandidates.add(next);
-				next = LocationFactory.build(next, ColumnOffSet, 0);
+				next = LocationMaker.build(next, ColumnOffSet, 0);
 			}
 			
 		}catch(Exception e) {
@@ -65,7 +65,7 @@ public class Rook extends Piece {
 		
 		try {
 		
-			Location next = LocationFactory.build(current,0, rowOffSet);
+			Location next = LocationMaker.build(current,0, rowOffSet);
 			
 			while(squareMap.containsKey(next) && next != null) {
 				if((Color = Board.squareIsOccupied(next.getRow(), next.getColumn())) != null) {
@@ -77,7 +77,7 @@ public class Rook extends Piece {
 					}
 				}
 				moveCandidates.add(next);
-				next = LocationFactory.build(next, 0, rowOffSet);
+				next = LocationMaker.build(next, 0, rowOffSet);
 			}
 			
 		}catch(Exception e) {
